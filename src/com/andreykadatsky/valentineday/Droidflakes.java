@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class Droidflakes extends Activity {
 
     FlakeView flakeView;
+    private AsyncTask<Void, Void, String> task;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,16 +40,24 @@ public class Droidflakes extends Activity {
         flakeView = new FlakeView(this);
         container.addView(flakeView);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        flakeView.resume();
 
         final TextView textViewName = (TextView) findViewById(R.id.textViewName);
-        final View imageViewTail =  findViewById(R.id.imageViewTail);
-        final View parentDialog =  findViewById(R.id.parentDialog);
-        final View droid =  findViewById(R.id.droid);
+        final View imageViewTail = findViewById(R.id.imageViewTail);
+        final View parentDialog = findViewById(R.id.parentDialog);
+        final View droid = findViewById(R.id.droid);
 
-        new AsyncTask<Void, Void, String>() {
+
+        task = new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                while (true) {
+                while (!isCancelled()) {
                     try {
                         TimeUnit.SECONDS.sleep(5);
                         final String wish = WebUtil.getInstance(Droidflakes.this).getWish().getResult();
@@ -70,21 +79,18 @@ public class Droidflakes extends Activity {
                 return null;
             }
 
-        }.execute();
+        };
+        task.execute();
 
     }
-
 
     @Override
     protected void onPause() {
         super.onPause();
         flakeView.pause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        flakeView.resume();
+        if (task != null) {
+            task.cancel(true);
+        }
     }
 
 
