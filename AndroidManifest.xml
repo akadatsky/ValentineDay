@@ -21,7 +21,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http"
-                      android:host="www.mobindustry.net/androidhappyvalentinesday"
+                      android:host="www.mobindustry.net/androidhappyvalentinesday/"
                       />
             </intent-filter>
 
@@ -32,7 +32,7 @@
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="http"
                   android:host="www.mobindustry.net"
-                  android:pathPrefix="/androidhappyvalentinesday"/>
+                  android:pathPrefix="/androidhappyvalentinesday/"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -40,7 +40,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https"
                       android:host="www.mobindustry.net"
-                      android:pathPrefix="/androidhappyvalentinesday"/>
+                      android:pathPrefix="/androidhappyvalentinesday/"/>
             </intent-filter>
 
             <intent-filter>

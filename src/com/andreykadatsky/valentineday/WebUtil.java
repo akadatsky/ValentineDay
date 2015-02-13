@@ -1,6 +1,7 @@
 package com.andreykadatsky.valentineday;
 
 import android.content.Context;
+import android.text.TextUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -13,6 +14,8 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 public class WebUtil {
@@ -84,8 +87,21 @@ public class WebUtil {
         return new JSONObject(output);
     }
 
-    public RequestResult<String> getWish() {
+    public RequestResult<String> getWish(final String name) {
         String url = "http://staging.mobindustry.net:20220/Wish/General";
+
+        if(!TextUtils.isEmpty(name)){
+            String query = null;
+            try {
+                query = URLEncoder.encode(name, "utf-8");
+                url = "http://staging.mobindustry.net:20220/Wish/ForName?name="+query;
+            } catch (UnsupportedEncodingException e) {
+              // :)
+            }
+        }
+
+
+
         try {
             JSONObject response = getRequest(url, null);
             return new RequestResult<String>(response.getString("wish"));

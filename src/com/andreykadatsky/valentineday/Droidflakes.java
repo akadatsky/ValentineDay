@@ -16,8 +16,10 @@
 package com.andreykadatsky.valentineday;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -25,17 +27,35 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Droidflakes extends Activity {
 
     FlakeView flakeView;
     private AsyncTask<Void, Void, String> task;
-
+    private String name = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.droidflakes);
+
+        Intent intent = getIntent();
+        // check if this intent is started via custom scheme link
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Uri uri = intent.getData();
+            List<String> params = uri.getPathSegments();
+            if(params != null && !params.isEmpty()){
+                String method = params.get(0); // androidhappyvalentinesday
+                if(method.equals("androidhappyvalentinesday")){
+                    if(params.size()>1){
+                        name = params.get(1); // name to congrat
+
+                    }
+                }
+            }
+        }
+
         LinearLayout container = (LinearLayout) findViewById(R.id.container);
         flakeView = new FlakeView(this);
         container.addView(flakeView);
@@ -60,7 +80,7 @@ public class Droidflakes extends Activity {
                 while (!isCancelled()) {
                     try {
                         TimeUnit.SECONDS.sleep(5);
-                        final String wish = WebUtil.getInstance(Droidflakes.this).getWish().getResult();
+                        final String wish = WebUtil.getInstance(Droidflakes.this).getWish(name).getResult();
                         if (!TextUtils.isEmpty(wish)) {
                             runOnUiThread(new Runnable() {
                                 @Override
