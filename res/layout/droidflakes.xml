@@ -11,7 +11,7 @@
             android:id="@+id/container"/>
     <FrameLayout android:id="@+id/layoutPopup"
                  android:layout_width="match_parent"
-                 android:layout_height="200dp"
+                 android:layout_height="190dp"
                  android:layout_alignParentBottom="true"
                  android:layout_gravity="top">
 
@@ -23,22 +23,28 @@
             <ImageView android:layout_width="wrap_content"
                        android:id="@+id/droid"
                        android:visibility="invisible"
-                   android:layout_height="match_parent"
-                   android:scaleType="fitCenter"
-                   android:adjustViewBounds="true"
-                   android:src="@drawable/android"/>
+                       android:layout_gravity="bottom"
+                       android:layout_height="100dip"
+                       android:scaleType="fitCenter"
+                       android:adjustViewBounds="true"
+                       android:src="@drawable/android2"/>
             <ScrollView
-                    android:id="@+id/parentDialog"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-                    android:visibility="invisible"
-              android:background="@drawable/pin_popup_shape"
-              android:padding="14dip"
-              android:layout_margin="20dip"
-              android:orientation="vertical">
+                      android:id="@+id/parentDialog"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center_vertical"
+                      android:visibility="invisible"
+                      android:background="@drawable/pin_popup_shape"
+                      android:paddingLeft="10dip"
+                      android:paddingRight="10dip"
+                      android:paddingTop="5dip"
+                      android:paddingBottom="5dip"
+                      android:layout_margin="20dip"
+                      android:orientation="vertical">
                 <TextView
                     android:id="@+id/textViewName"
                     android:text="@string/greeting"
+                    android:textColor="#ff797979"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
@@ -46,9 +52,9 @@
 
         </LinearLayout>
         <ImageView
-                android:visibility="invisible"
-            android:layout_marginTop="30dip"
-            android:layout_marginLeft="130dip"
+            android:visibility="invisible"
+            android:layout_marginTop="90dip"
+            android:layout_marginLeft="50dip"
             android:id="@+id/imageViewTail"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
