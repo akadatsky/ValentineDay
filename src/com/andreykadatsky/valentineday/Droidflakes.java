@@ -18,8 +18,14 @@ package com.andreykadatsky.valentineday;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.util.concurrent.TimeUnit;
 
 public class Droidflakes extends Activity {
 
@@ -34,8 +40,39 @@ public class Droidflakes extends Activity {
         container.addView(flakeView);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
-    }
+        final TextView textViewName = (TextView) findViewById(R.id.textViewName);
+        final View imageViewTail =  findViewById(R.id.imageViewTail);
+        final View parentDialog =  findViewById(R.id.parentDialog);
+        final View droid =  findViewById(R.id.droid);
 
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                while (true) {
+                    try {
+                        TimeUnit.SECONDS.sleep(5);
+                        final String wish = WebUtil.getInstance(Droidflakes.this).getWish().getResult();
+                        if (!TextUtils.isEmpty(wish)) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    parentDialog.setVisibility(View.VISIBLE);
+                                    imageViewTail.setVisibility(View.VISIBLE);
+                                    droid.setVisibility(View.VISIBLE);
+                                    textViewName.setText(wish);
+                                }
+                            });
+                        }
+                    } catch (Exception e) {
+                        break;
+                    }
+                }
+                return null;
+            }
+
+        }.execute();
+
+    }
 
 
     @Override
